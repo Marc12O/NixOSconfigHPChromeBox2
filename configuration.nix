@@ -49,7 +49,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    wget vim mc oathToolkit spectacle okular gwenview git curl unzip vlc libusb rtl-sdr gqrx tdesktop firefox
+    wget vim mc gnupg oathToolkit spectacle okular gwenview git curl unzip vlc libusb rtl-sdr gqrx tdesktop firefox gnumake gcc
     pkgs.yubikey-manager-qt
     pkgs.yubikey-personalization-gui
     pkgs.ledger-live-desktop
@@ -135,4 +135,5 @@
   
   services.fstrim.enable = true;
 }
+
 
