@@ -49,11 +49,34 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    wget vim mc gnupg oathToolkit spectacle okular gwenview git curl unzip vlc libusb rtl-sdr gqrx tdesktop firefox gnumake gcc
-    pkgs.yubikey-manager-qt
-    pkgs.yubikey-personalization-gui
+    curl
+    dmidecode
+    etcher
+    firefox
+    gcc
+    git
+    gnumake
+    gnupg
+    gqrx
+    gwenview
+    inxi
+    libusb
+    mc
+    neofetch
+    oathToolkit
+    okular
+    onedrive
     pkgs.ledger-live-desktop
     pkgs.ledger-udev-rules 
+    pkgs.yubikey-manager-qt
+    pkgs.yubikey-personalization-gui
+    rtl-sdr
+    spectacle
+    tdesktop
+    unzip 
+    vim
+    vlc
+    wget
  ];
 
   nixpkgs.config.firefox.enablePlasmaBrowserIntegration = true;
