@@ -111,7 +111,7 @@
 
   boot.initrd.kernelModules = [ "i915" ];
 
-  hardware.cpu.intel.updateMicrocode = config.hardware.enableRedistributableFirmware;
+  hardware.cpu.intel.updateMicrocode = true;
   
   hardware.opengl.extraPackages = with pkgs; [
     vaapiIntel
@@ -152,7 +152,7 @@
 
 
   system.autoUpgrade.enable = true;
-  system.autoUpgrade.allowReboot = true;
+  system.autoUpgrade.allowReboot = false;
 
   boot.kernel.sysctl =  { "vm.swappiness" = 1; };
   
