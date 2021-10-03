@@ -16,9 +16,14 @@
 
   networking.networkmanager.enable = true;
 
+  networking.enableIPv6 = false;
+
   services.xserver.xkbVariant = "intl";
+  services.xserver.wacom.enable = true;
 
   services.acpid.enable = true;
+
+  services.haveged.enable = true;
 
   powerManagement.enable = true;
   powerManagement.cpuFreqGovernor = "ondemand"; # "ondemand", "powersave", "performance", "schedutil"?
@@ -45,7 +50,6 @@
   boot.kernel.sysctl = { "vm.swappiness" = 1; };
 
   environment.etc."passwd".source = "/nix/persist/etc/passwd";
-  environment.etc."group".source = "/nix/persist/etc/group";
   environment.etc."shadow".source = "/nix/persist/etc/shadow";
   environment.etc."nixos/configuration.nix".source = "/nix/persist/etc/nixos/configuration.nix";
   environment.etc."nixos/hardware-configuration.nix".source = "/nix/persist/etc/nixos/hardware-configuration.nix";
