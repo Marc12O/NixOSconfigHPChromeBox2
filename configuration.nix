@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports =
@@ -10,20 +10,24 @@
       ./hardware-configuration.nix
     ];
 
-  nixpkgs.config.allowUnfree = false;
-  hardware.enableAllFirmware = false;  
-
-  boot.kernelParams = [ "modprobe.blacklist=dvb_usb_rtl28xxu" ];
-
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.timeout = 1;
+
+  boot.initrd.supportedFilesystems = ["zfs"]; # boot from zfs
+  boot.supportedFilesystems = [ "zfs" ];
+
+  boot.initrd.postDeviceCommands = lib.mkAfter ''
+    zfs rollback -r rpool/local/root@blank
+  '';
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  networking.networkmanager.enable = true;
+  networking.hostId = "4e98920e";
+
+  # Set your time zone.
+  time.timeZone = "Europe/Amsterdam";
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
@@ -31,6 +35,8 @@
   networking.useDHCP = false;
   networking.interfaces.enp1s0.useDHCP = true;
   networking.interfaces.wlp2s0.useDHCP = true;
+
+  networking.networkmanager.enable = true;
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -43,58 +49,57 @@
     keyMap = "us";
   };
 
-  # Set your time zone.
-  time.timeZone = "Europe/Amsterdam";
+  # Enable the X11 windowing system.
+  services.xserver.enable = true;
+
+  # Enable the Plasma 5 Desktop Environment.
+  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.desktopManager.plasma5.enable = true;
+  
+
+  # Configure keymap in X11
+  services.xserver.layout = "us";
+  services.xserver.xkbOptions = "eurosign:e";
+
+  # Enable CUPS to print documents.
+  # services.printing.enable = true;
+
+  # Enable sound.
+  sound.enable = true;
+  hardware.pulseaudio.enable = true;
+
+  # Enable touchpad support (enabled default in most desktopManager).
+  # services.xserver.libinput.enable = true;
+
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.user = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+  };
+
+  users.users.root.initialPassword = "rootofallevil";
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    curl
-    dmidecode
-    etcher
-    firefox
-    gcc
-    git
-    gnumake
-    gnupg
-    gqrx
-    gwenview
-    inxi
-    libusb
-    mc
-    neofetch
-    oathToolkit
-    okular
-    onedrive
-    pkgs.ledger-live-desktop
-    pkgs.ledger-udev-rules 
-    pkgs.yubikey-manager-qt
-    pkgs.yubikey-personalization-gui
-    rtl-sdr
-    spectacle
-    tdesktop
-    unzip 
-    vim
-    vlc
+    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
- ];
-
-  nixpkgs.config.firefox.enablePlasmaBrowserIntegration = true;
+    firefox
+    mc
+  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
-  programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-    pinentryFlavor = "gnome3";
-  };
+  # programs.mtr.enable = true;
+  # programs.gnupg.agent = {
+  #   enable = true;
+  #   enableSSHSupport = true;
+  # };
 
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-  services.udev.packages = [ pkgs.yubikey-personalization pkgs.libu2f-host pkgs.rtl-sdr ];
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 22 ];
@@ -102,61 +107,13 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
-
-  boot.initrd.kernelModules = [ "i915" ];
-
-  hardware.cpu.intel.updateMicrocode = true;
-  
-  hardware.opengl.extraPackages = with pkgs; [
-    vaapiIntel
-    vaapiVdpau
-    libvdpau-va-gl
-    intel-media-driver
-  ];
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  services.xserver.layout = "us";
-  services.xserver.xkbOptions = "eurosign:e";
-  services.xserver.xkbVariant = "intl";
-  # Enable touchpad support.
-  # services.xserver.libinput.enable = true;
-
-  # Enable the KDE Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.user = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "tty" "uucp" "dialout" "networkmanager" "audio" ]; # Enable ‘sudo’ for the user.
-  };
-
-  # Collect nix store garbage and optimise daily.
-  nix.gc.automatic = true;
-  nix.optimise.automatic = true;
-
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "20.09"; # Did you read the comment?
+  system.stateVersion = "21.05"; # Did you read the comment?
 
-
-  system.autoUpgrade.enable = true;
-  system.autoUpgrade.allowReboot = false;
-
-  boot.kernel.sysctl =  { "vm.swappiness" = 1; };
-  
-  services.fstrim.enable = true;
 }
-
 
