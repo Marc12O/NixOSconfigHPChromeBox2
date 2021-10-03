@@ -28,20 +28,20 @@
       fsType = "zfs";
     };
 
-  fileSystems."/home" =
-    { device = "rpool/safe/home";
-      fsType = "zfs";
-    };
+#  fileSystems."/home" =
+#    { device = "rpool/safe/home";
+#      fsType = "zfs";
+#    };
 
   fileSystems."/persist" =
     { device = "rpool/safe/persist";
       fsType = "zfs";
     };
 
-  fileSystems."/etc" =
-    { device = "rpool/safe/etc";
-      fsType = "zfs";
-    };
+  #fileSystems."/etc" =
+  #  { device = "rpool/safe/etc";
+  #    fsType = "zfs";
+  #  };
 
   swapDevices =
     [ { device = "/dev/disk/by-uuid/6af153af-f274-435e-98d6-ed6284a8e18b"; }
