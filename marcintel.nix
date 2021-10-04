@@ -37,7 +37,7 @@
   #users.users.user.initialPassword = "rootofallevil";
   users.users.root.initialPassword = "rootofallevil";
 
-  users.mutableUsers = false;
+  #users.mutableUsers = false;
 
   nix.gc.automatic = true;
   nix.optimise.automatic = true;
@@ -49,10 +49,10 @@
   services.fstrim.enable = true;
   boot.kernel.sysctl = { "vm.swappiness" = 1; };
 
-  environment.etc."passwd".source = "/nix/persist/etc/passwd";
-  environment.etc."shadow".source = "/nix/persist/etc/shadow";
-  environment.etc."nixos/configuration.nix".source = "/nix/persist/etc/nixos/configuration.nix";
-  environment.etc."nixos/hardware-configuration.nix".source = "/nix/persist/etc/nixos/hardware-configuration.nix";
-  environment.etc."nixos/marcintel.nix".source = "/nix/persist/etc/nixos/marcintel.nix";
+  #environment.etc."passwd".source = "/nix/persist/etc/passwd";
+  #environment.etc."shadow".source = "/nix/persist/etc/shadow";
+  #environment.etc."nixos/configuration.nix".source = "/nix/persist/etc/nixos/configuration.nix";
+  #environment.etc."nixos/hardware-configuration.nix".source = "/nix/persist/etc/nixos/hardware-configuration.nix";
+  #environment.etc."nixos/marcintel.nix".source = "/nix/persist/etc/nixos/marcintel.nix";
 
 }
