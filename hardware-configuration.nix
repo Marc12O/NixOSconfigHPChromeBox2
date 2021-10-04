@@ -19,7 +19,7 @@
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/EBE9-E676";
+    { device = "/dev/disk/by-uuid/B314-4135";
       fsType = "vfat";
     };
 
@@ -28,23 +28,23 @@
       fsType = "zfs";
     };
 
-#  fileSystems."/home" =
-#    { device = "rpool/safe/home";
-#      fsType = "zfs";
-#    };
+  fileSystems."/home" =
+    { device = "rpool/safe/home";
+      fsType = "zfs";
+    };
+
+  fileSystems."/etc" =
+    { device = "rpool/safe/etc";
+      fsType = "zfs";
+    };
 
   fileSystems."/persist" =
     { device = "rpool/safe/persist";
       fsType = "zfs";
     };
 
-  #fileSystems."/etc" =
-  #  { device = "rpool/safe/etc";
-  #    fsType = "zfs";
-  #  };
-
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/6af153af-f274-435e-98d6-ed6284a8e18b"; }
+    [ { device = "/dev/disk/by-uuid/1e06a0ed-e9ed-4c3b-a5b7-1b86f9117492"; }
     ];
 
 }

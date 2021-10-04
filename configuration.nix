@@ -22,10 +22,10 @@
     zfs rollback -r rpool/local/root@blank
   '';
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "nixosCB2"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  networking.hostId = "4e98920e";
+  networking.hostId = "3e98920e";
 
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";

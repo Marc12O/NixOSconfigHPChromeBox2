@@ -34,8 +34,8 @@
   # hardware.enableAllFirmware = true;
   hardware.enableRedistributableFirmware = true;
 
-  #users.users.user.initialPassword = "rootofallevil";
-  users.users.root.initialPassword = "rootofallevil";
+  users.users.user.initialPassword = "rootofallevil";
+  #users.users.root.initialPassword = "rootofallevil";
 
   #users.mutableUsers = false;
 
