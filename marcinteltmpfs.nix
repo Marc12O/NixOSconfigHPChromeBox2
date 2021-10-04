@@ -93,7 +93,7 @@
   #boot.loader.grub.enable = true;
 
   # This is for GRUB in EFI mode
-  boot.loader.grub.efiSupport = true;
-  boot.loader.grub.device = "nodev";
+  #boot.loader.grub.efiSupport = true;
+  #boot.loader.grub.device = "nodev";
 
 }
